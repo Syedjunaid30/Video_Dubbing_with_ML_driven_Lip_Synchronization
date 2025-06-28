@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Video Dubbing | HKBK College</title>
+  <style>
+    :root {
+      --bg-color: #000;
+      --text-color: #ffffff;
+      --section-bg: #111;
+      --link-color: #ccc;
+      --link-hover: #fff;
+    }
+
+    body.light-mode {
+      --bg-color: #f4f4f4;
+      --text-color: #111;
+      --section-bg: #fff;
+      --link-color: #333;
+      --link-hover: #000;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: var(--section-bg);
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .navbar .college-name {
+      display: flex;
+      align-items: center;
+      color: var(--text-color);
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+    .navbar img {
+      height: 45px;
+      margin-right: 15px;
+    }
+
+    
+.nav-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-size: 1em;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--link-hover);
+}
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 24px;
+      margin-left: 20px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #666;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    .content {
+      position: relative;
+      max-width: 1550px;
+      margin: 80px auto 40px;
+      padding: 40px 20px;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in;
+      z-index: 1;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .content .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.8;
+      filter: blur(1px);
+      border-radius: 10px;
+    }
+
+    .content h1 {
+      color: var(--text-color);
+      font-size: 2.8em;
+      margin-bottom: 15px;
+    }
+
+    .content p {
+      font-size: 1.2em;
+      color: var(--text-color);
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background-color: #ccc;
+      transform: scale(1.05);
+    }
+
+    .ai-video-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 80px 20px;
+      padding: 50px;
+      background: linear-gradient(135deg, var(--section-bg), #333);
+      border-radius: 10px;
+      animation: fadeIn 2s ease-in;
+      flex-wrap: wrap;
+    }
+
+    .ai-video-section img {
+      width: 45%;
+      height: auto;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .ai-video-text {
+      width: 45%;
+      font-size: 1.2em;
+      line-height: 1.6;
+      color: var(--text-color);
+    }
+
+    .ai-video-text h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 0 20px;
+      animation: slideUp 1s ease;
+    }
+
+    .section h2 {
+      font-size: 1.8em;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      color: var(--text-color);
+    }
+
+    .project-team {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .person {
+      flex: 1 1 250px;
+      max-width: 280px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .person img {
+      width: 100px;
+      height: 100px;
+      border-radius: 30%;
+      object-fit: cover;
+      margin-right: 20px;
+      border: 2px solid #333;
+    }
+
+    .person-details p {
+      margin: 4px 0;
+      color: var(--text-color);
+    }
+
+    .faq-item {
+      margin-bottom: 15px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.1em;
+      cursor: pointer;
+      padding: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toggle-icon {
+      font-size: 1.5em;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 10px 0;
+      color: var(--text-color);
+      font-size: 1em;
+      line-height: 1.5;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .faq-question.active .toggle-icon {
+      transform: rotate(45deg);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: var(--section-bg);
+      color: #999;
+      font-size: 0.9em;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .ai-video-section {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .ai-video-section img,
+      .ai-video-text {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .project-team {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .person {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .person img {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+
+  <body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="college-name">
+        <img src="{{ url_for('static', filename='images/HKBK-College-Logo.png') }}" alt="HKBK Logo">
+        HKBK College of Engineering
+      </div>
+      <div class="nav-links">
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      </div>
+      <div class="theme-toggle">
+        <label class="switch">
+          <input type="checkbox" id="themeSwitcher">
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Content with Video Background -->
+    <div class="content">
+      <video autoplay muted loop playsinline class="background-video">
+         <source src="{{ url_for('static', filename='images/videoplayback.mp4') }}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <h1>AI Video Dubbing</h1>
+      <p>
+        This project focuses on <b>English to Hindi video dubbing</b> using advanced AI technology. The AI model ensures
+        accurate lip-syncing between the original video and its dubbed Hindi version.
+      </p>
+      <a href="{{ url_for('register') }}" class="btn">Get Started</a>
+    </div>
+
+    <!-- AI Section -->
+    <div class="ai-video-section">
+      <img src="{{ url_for('static', filename='images/chatgpt.png') }}" alt="AI Video Dubbing">
+      <div class="ai-video-text">
+        <h2>How Wave2Lip Dubbing Works</h2>
+        <p>
+          Our AI-powered system, built using the <b>Wave2Lip model</b>, focuses on <b>English to Hindi</b> dubbing while
+          maintaining perfect lip-syncing.
+        </p>
+        <p>
+          It analyzes the facial movements and speech of the original video, generating a lip-synced Hindi version.
+        </p>
+      </div>
+    </div>
+
+    <!-- Team Section -->
+    <div class="section">
+      <h2>Project Guide & Team Members</h2>
+      <div class="project-team">
+        <div class="person">
+          <img src="{{ url_for('static', filename='images/junaid.jpeg') }}" alt="Dr. Smitha Kurian">
+          <div class="person-details">
+            <p><strong>Dr. Smitha Kurian</strong></p>
+            <p>Internal Guide</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="{{ url_for('static', filename='images/junaid.jpeg') }}" alt="Syed Junaid">
+          <div class="person-details">
+            <p><strong>Syed Junaid</strong></p>
+            <p>1HK21CS168</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="{{ url_for('static', filename='images/junaid.jpeg') }}" alt="Syed Junaid">
+          <div class="person-details">
+            <p><strong>Saad Syed Kaleemulla</strong></p>
+            <p>1HK21CS133</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="{{ url_for('static', filename='images/Ameen.jpeg') }}" alt="Sheikh Ameen">
+          <div class="person-details">
+            <p><strong>Sheikh Ameen</strong></p>
+            <p>1HK21CS150</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="{{ url_for('static', filename='images/Zubair.jpeg') }}" alt="Zubair Abdul Aziz">
+          <div class="person-details">
+            <p><strong>Zubair Abdul Aziz</strong></p>
+            <p>1HK21CS187</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="section">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-question">What is AI video dubbing? <span class="toggle-icon">+</span></button>
+          <div class="faq-answer">
+            AI video dubbing uses artificial intelligence to translate and synchronize speech in videos while maintaining
+            lip movements, making it look like the speaker is naturally speaking the translated language.
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What is Wave2Lip? <span class="toggle-icon">+</span></button>
+          <div class="faq-answer">
+            Wave2Lip ensures accurate lip-syncing in dubbed videos by aligning lip movements with speech in real-time.
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Who can use this technology? <span class="toggle-icon">+</span></button>
+          <div class="faq-answer">
+            Content creators, educators, and businesses can localize their videos into Hindi with realistic results.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Final Year Students, HKBK College of Engineering. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Script: FAQ Toggle -->
+    <script>
+      const faqButtons = document.querySelectorAll(".faq-question");
+
+      faqButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          const answer = button.nextElementSibling;
+          const icon = button.querySelector(".toggle-icon");
+
+          const isVisible = answer.style.display === "block";
+          document.querySelectorAll(".faq-answer").forEach(a => a.style.display = "none");
+          document.querySelectorAll(".toggle-icon").forEach(i => i.textContent = "+");
+          document.querySelectorAll(".faq-question").forEach(q => q.classList.remove("active"));
+
+          if (!isVisible) {
+            answer.style.display = "block";
+            icon.textContent = "−";
+            button.classList.add("active");
+          }
+        });
+      });
+    </script>
+
+    <!-- Script: Theme Toggle -->
+    <script>
+      const switcher = document.getElementById('themeSwitcher');
+      const userPrefersLight = localStorage.getItem('theme') === 'light';
+
+      if (userPrefersLight) {
+        document.body.classList.add('light-mode');
+        switcher.checked = true;
+      }
+
+      switcher.addEventListener('change', () => {
+        document.body.classList.toggle('light-mode');
+        if (document.body.classList.contains('light-mode')) {
+          localStorage.setItem('theme', 'light');
+        } else {
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    </script>
+
+  </body>
+</html>

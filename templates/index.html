@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Video Dubbing</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #f1f1f1;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.25;
+    }
+
+    nav {
+      background-color: #1a1a1a;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e7dcee;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 2;
+    }
+
+    nav .title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 100px;
+      z-index: 1;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 12px;
+      border: 1px solid #e7d9ebc2;
+      box-shadow: 0 0 12px rgba(106, 13, 173, 0.3);
+      max-width: 500px;
+      width: 90%;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8em;
+      color: #ffffff;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #ffffff;
+      padding-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #d6eff3;
+      text-align: left;
+    }
+
+    input[type="file"],
+    select {
+      width: 100%;
+      padding: 10px;
+      background-color: #262626;
+      color: #e0e0e0;
+      border: 1px solid #ffffff;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    input[type="file"]::file-selector-button {
+      background-color: #3a3a3a;
+      border: none;
+      color: #ccc;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: transparent;
+      border: 2px solid #ffffff;
+      color: #ffffff;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffffff;
+      color: #111111;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 25px;
+      }
+
+      .main-content {
+        padding-top: 90px;
+      }
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      color: #999;
+      font-size: 0.9em;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Video Background -->
+  <video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='images/videoplayback.mp4') }}" type="video/webm" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="title">AI Video Dubbing</div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <div class="container">
+      <h1>Upload & Dub Your Video</h1>
+      <form method="post" action="{{ url_for('process') }}" enctype="multipart/form-data">
+        <label for="video">Select Video:</label>
+        <input type="file" name="video" id="video" accept="video/mp4" required>
+
+        <label for="language">Select Language:</label>
+        <select name="language" id="language" required>
+          <option value="Hindi">Select language</option>
+          {% for code, name in languages.items() %}
+          <option value="{{ code }}">{{ name }}</option>
+          {% endfor %}
+        </select>
+
+        <button type="submit">Start Dubbing</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Final Year Students, HKBK College of Engineering. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

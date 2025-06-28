@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Processing Video...</title>
+  <meta http-equiv="refresh" content="3;url={{ url_for('result', filename=filename, language=language) }}">
+  <style>
+    body {
+      background-color: #121212;
+      color: #f2f2f2;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 6px solid #444;
+      border-top: 6px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <h2>Processing your video...</h2>
+  <p>This may take a few minutes. Please wait.</p>
+</body>
+</html>

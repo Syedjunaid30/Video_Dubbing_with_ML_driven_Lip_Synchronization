@@ -1,0 +1,14 @@
+flask
+flask-bcrypt
+flask-sqlalchemy
+pymysql
+nest_asyncio
+librosa
+numpy
+torch
+deepface
+transformers
+openai-whisper
+edge-tts
+gtts
+aiohttp

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dubbed Output - AI Video Dubbing</title>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --container-bg: #f5f5f5;
+      --border-color: #cccccc;
+      --button-bg: #000000;
+      --button-text: #ffffff;
+    }
+
+    body.dark-mode {
+      --bg-color: #1a1a1a;
+      --text-color:rgb(0, 0, 0);
+      --container-bg: #2a2a2a;
+      --border-color: #444;
+      --button-bg: #ffffff;
+      --button-text: #000000;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    nav {
+      background-color: var(--container-bg);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav .logo {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 0.95em;
+      margin-left: 20px;
+    }
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      border-radius: 20px;
+      transition: 0.4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #666;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .container {
+      background-color: var(--container-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      margin: 50px auto;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    video {
+      width: 100%;
+      max-height: 400px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .text-box h2 {
+      margin-top: 20px;
+      margin-bottom: 5px;
+      font-size: 1.1em;
+    }
+
+    .text-box p {
+      background-color: var(--input-bg, #ffffff);
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      white-space: pre-wrap;
+    }
+
+    .button {
+      display: inline-block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      text-align: center;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+      border: 2px solid var(--button-bg);
+      transition: all 0.3s ease;
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #111;
+            color: #999;
+            font-size: 0.9em;
+            position: relative;
+            z-index: 1;
+        }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">AI Video Dubbing</div>
+    <div><a href="{{ url_for('home') }}">Home</a></div>
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="themeSwitcher" />
+        <span class="slider"></span>
+      </label>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Dubbed Video Output</h1>
+
+    <video controls>
+      <source src="{{ video_file }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="text-box">
+      <h2>Original Text:</h2>
+      <p>{{ original_text }}</p>
+
+      <h2>Translated Text:</h2>
+      <p>{{ translated_text }}</p>
+    </div>
+
+    <a class="button" href="{{ url_for('download') }}">Download Dubbed Video</a>
+    <a class="button" href="{{ url_for('dashboard') }}">Upload Another Video</a>
+
+  </div>
+
+  <footer>
+    &copy; 2025 Final Year Students, HKBK College of Engineering. All rights reserved.
+  </footer>
+
+  <script>
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark-mode");
+      document.getElementById("themeSwitcher").checked = true;
+    }
+
+    document.getElementById("themeSwitcher").addEventListener("change", function () {
+      if (this.checked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("theme", "light");
+      }
+    });
+  </script>
+</body>
+</html>
