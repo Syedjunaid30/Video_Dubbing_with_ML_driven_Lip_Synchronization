@@ -119,7 +119,7 @@ Saad Syed Kaleemulla
 Zubair Abdul Aziz
 
 ---
-##📜 License
+## 📜 License
 
 This project is released under the MIT License.
 This license also respects and follows the license terms of the original Wav2Lip repository.
