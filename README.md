@@ -111,9 +111,12 @@ License: MIT
 ---
 ## ✍️ Author
 Syed Junaid
-  📧 junaid68555@gmail.com
-  🔗 LinkedIn
-  💻 GitHub
+
+Sheikh Ameen
+
+Saad Syed Kaleemulla
+
+Zubair Abdul Aziz
 
 ---
 ##📜 License
