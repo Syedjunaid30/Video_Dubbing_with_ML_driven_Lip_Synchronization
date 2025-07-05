@@ -2,6 +2,16 @@
 
 An intelligent video dubbing system powered by **deep learning** that enables users to dub a video in multiple languages with realistic **lip-sync accuracy**, powered by the [Wav2Lip](https://github.com/Rudrabha/Wav2Lip) model.
 
+
+
+---
+
+## 📦 Download Project (Pre-packaged ZIP)
+
+You can download the complete working project including models and scripts as a ZIP from Dropbox:
+
+🔗 [Download ZIP from Dropbox](https://www.dropbox.com/scl/fi/aw2dtj3jk61b8d7x83i79/Video_Dubbing_with_ML_driven_Lip_Synchronization.zip?rlkey=npsmhiplekxapf687s5jzpb1a&st=n30s2y6s&dl=0)
+
 ---
 
 ## 📂 Folder Structure
