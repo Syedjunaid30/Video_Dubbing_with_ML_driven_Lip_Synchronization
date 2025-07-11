@@ -107,7 +107,8 @@ GitHub: https://github.com/Rudrabha/Wav2Lip
 License: MIT
 
 ---
-## 📸 Demo Screenshots
+## 📸 Demo Screenrecoding 
+its in the folder
 ---
 ## ✍️ Author
 Syed Junaid
