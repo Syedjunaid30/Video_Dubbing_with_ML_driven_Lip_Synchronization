@@ -108,7 +108,7 @@ License: MIT
 
 ---
 ## 📸 Demo Screenrecoding 
-its in the folder
+ - its in the folder
 ---
 ## ✍️ Author
 Syed Junaid
